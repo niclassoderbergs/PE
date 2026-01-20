@@ -208,9 +208,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
     // Top-level Toggles
     const [startHover, setStartHover] = useState(false);
     const [timelineHover, setTimelineHover] = useState(false);
-    const [deploymentHover, setDeploymentHover] = useState(false); // New
+    const [deploymentHover, setDeploymentHover] = useState(false); 
     const [todoHover, setTodoHover] = useState(false);
-    const [isFisOpen, setIsFisOpen] = useState(false); // Default closed
+    const [isFisOpen, setIsFisOpen] = useState(false); 
     const [fisHover, setFisHover] = useState(false);
     const [isDhvOpen, setIsDhvOpen] = useState(false);
     const [dhvHover, setDhvHover] = useState(false);
@@ -396,77 +396,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 </div>
             </div>
 
-            {/* FIS Group */}
-            <div style={styles.treeGroup}>
-                <div 
-                    style={{
-                        ...styles.treeHeader,
-                        padding: '16px 16px 16px 20px',
-                        borderBottom: '1px solid #ebecf0',
-                        color: isFisOpen || viewMode === 'welcome' ? '#0052cc' : '#172b4d',
-                        backgroundColor: viewMode === 'welcome' ? '#e6effc' : (fisHover ? '#f4f5f7' : 'transparent'),
-                        cursor: 'pointer'
-                    }}
-                    onMouseEnter={() => setFisHover(true)}
-                    onMouseLeave={() => setFisHover(false)}
-                >
-                    <span style={styles.treeArrow} onClick={(e) => { e.stopPropagation(); setIsFisOpen(!isFisOpen); }}>
-                        <span style={{fontSize: '0.9rem', display: 'inline-block', transition: 'transform 0.2s', transform: isFisOpen ? 'rotate(90deg)' : 'rotate(0deg)'}}>▶</span>
-                    </span>
-                    <span style={{...styles.treeLabel, fontSize: '1.1rem', fontWeight: 700}} onClick={() => { setIsFisOpen(true); setViewMode('welcome'); }}>
-                        FIS
-                    </span>
-                </div>
-                
-                {isFisOpen && (
-                    <div style={{...styles.treeContent, paddingLeft: '8px'}}> 
-                        <div style={styles.menuHeader}>ÖVERSIKT</div>
-                        {overviewMenuItems.map(item => (
-                            <button 
-                                key={item.id}
-                                onClick={() => setViewMode(item.view)} 
-                                style={{...styles.treeItem, ...(viewMode === item.view ? styles.treeItemActive : {})}}
-                            >
-                                {item.label}
-                            </button>
-                        ))}
-                        
-                        <div style={styles.menuHeader}>DOKUMENTATION</div>
-                        {groups.map(group => {
-                            const filteredBrs = brsData
-                                .filter(item => group.brsPrefixes.some(prefix => item.id.startsWith(prefix)))
-                                .sort(sortById);
-                            
-                            const filteredMps = mpsData
-                                .filter(item => group.mpsPrefixes.some(prefix => item.id.startsWith(prefix)))
-                                .sort(sortById);
-
-                            return (
-                                <SidebarGroup 
-                                    key={group.id}
-                                    group={group}
-                                    brsItems={filteredBrs}
-                                    mpsItems={filteredMps}
-                                    isOpen={openFisGroups.includes(group.id)}
-                                    onToggle={() => toggleFisGroup(group.id)}
-                                    selectedId={selectedId}
-                                    selectedMpsId={selectedMpsId}
-                                    selectedDomain={selectedDomain}
-                                    onSelectBRS={handleSelectBRS}
-                                    onSelectMPS={handleSelectMPS}
-                                    onSelectConditions={handleSelectConditions}
-                                    onSelectActorOverview={handleSelectActorOverview}
-                                    onSelectBRSOverview={handleSelectBRSOverview}
-                                    onSelectMPSOverview={handleSelectMPSOverview}
-                                    onSelectDomain={handleSelectDomain}
-                                    viewMode={viewMode}
-                                />
-                            );
-                        })}
-                    </div>
-                )}
-            </div>
-
             {/* DHV Main Group (Config Driven) */}
             <div style={styles.treeGroup}>
                 <div 
@@ -587,6 +516,77 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                         </div>
                                     )}
                                 </div>
+                            );
+                        })}
+                    </div>
+                )}
+            </div>
+
+            {/* FIS Group */}
+            <div style={styles.treeGroup}>
+                <div 
+                    style={{
+                        ...styles.treeHeader,
+                        padding: '16px 16px 16px 20px',
+                        borderBottom: '1px solid #ebecf0',
+                        color: isFisOpen || viewMode === 'welcome' ? '#0052cc' : '#172b4d',
+                        backgroundColor: viewMode === 'welcome' ? '#e6effc' : (fisHover ? '#f4f5f7' : 'transparent'),
+                        cursor: 'pointer'
+                    }}
+                    onMouseEnter={() => setFisHover(true)}
+                    onMouseLeave={() => setFisHover(false)}
+                >
+                    <span style={styles.treeArrow} onClick={(e) => { e.stopPropagation(); setIsFisOpen(!isFisOpen); }}>
+                        <span style={{fontSize: '0.9rem', display: 'inline-block', transition: 'transform 0.2s', transform: isFisOpen ? 'rotate(90deg)' : 'rotate(0deg)'}}>▶</span>
+                    </span>
+                    <span style={{...styles.treeLabel, fontSize: '1.1rem', fontWeight: 700}} onClick={() => { setIsFisOpen(true); setViewMode('welcome'); }}>
+                        FIS
+                    </span>
+                </div>
+                
+                {isFisOpen && (
+                    <div style={{...styles.treeContent, paddingLeft: '8px'}}> 
+                        <div style={styles.menuHeader}>ÖVERSIKT</div>
+                        {overviewMenuItems.map(item => (
+                            <button 
+                                key={item.id}
+                                onClick={() => setViewMode(item.view)} 
+                                style={{...styles.treeItem, ...(viewMode === item.view ? styles.treeItemActive : {})}}
+                            >
+                                {item.label}
+                            </button>
+                        ))}
+                        
+                        <div style={styles.menuHeader}>DOKUMENTATION</div>
+                        {groups.map(group => {
+                            const filteredBrs = brsData
+                                .filter(item => group.brsPrefixes.some(prefix => item.id.startsWith(prefix)))
+                                .sort(sortById);
+                            
+                            const filteredMps = mpsData
+                                .filter(item => group.mpsPrefixes.some(prefix => item.id.startsWith(prefix)))
+                                .sort(sortById);
+
+                            return (
+                                <SidebarGroup 
+                                    key={group.id}
+                                    group={group}
+                                    brsItems={filteredBrs}
+                                    mpsItems={filteredMps}
+                                    isOpen={openFisGroups.includes(group.id)}
+                                    onToggle={() => toggleFisGroup(group.id)}
+                                    selectedId={selectedId}
+                                    selectedMpsId={selectedMpsId}
+                                    selectedDomain={selectedDomain}
+                                    onSelectBRS={handleSelectBRS}
+                                    onSelectMPS={handleSelectMPS}
+                                    onSelectConditions={handleSelectConditions}
+                                    onSelectActorOverview={handleSelectActorOverview}
+                                    onSelectBRSOverview={handleSelectBRSOverview}
+                                    onSelectMPSOverview={handleSelectMPSOverview}
+                                    onSelectDomain={handleSelectDomain}
+                                    viewMode={viewMode}
+                                />
                             );
                         })}
                     </div>

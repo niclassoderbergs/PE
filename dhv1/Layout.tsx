@@ -57,7 +57,7 @@ export const Layout: React.FC<LayoutProps> = ({
             <div style={{display: 'flex', alignItems: 'center', gap: '24px'}}>
                 <div style={styles.logo}>
                   <span style={{fontSize: '1.5rem'}}>⚡</span>
-                  <span>FIS/DHV WIKI</span>
+                  <span>DHV/FIS WIKI</span>
                 </div>
                 {canGoBack && (
                      <button 

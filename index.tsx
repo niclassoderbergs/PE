@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BRSData, MPSData, NavigationSnapshot } from './types';
@@ -35,7 +34,7 @@ const LoginPage = ({ onLogin }: { onLogin: (p: string) => void }) => {
     <div style={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', height:'100vh', backgroundColor:'#f4f5f7', fontFamily: '"Segoe UI", sans-serif'}}>
       <div style={{backgroundColor:'white', padding:'48px', borderRadius:'8px', boxShadow:'0 4px 12px rgba(0,0,0,0.1)', textAlign:'center', width: '100%', maxWidth: '320px'}}>
         <div style={{fontSize: '3rem', marginBottom: '16px'}}>⚡</div>
-        <h1 style={{color:'#172b4d', marginBottom:'8px', fontSize: '1.5rem'}}>FIS/DHV Wiki</h1>
+        <h1 style={{color:'#172b4d', marginBottom:'8px', fontSize: '1.5rem'}}>DHV/FIS Wiki</h1>
         <p style={{color:'#5e6c84', marginBottom:'32px', fontSize: '0.9rem'}}>Logga in för att fortsätta</p>
         
         <input 

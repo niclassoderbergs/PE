@@ -17,7 +17,7 @@ const styles = {
     flexDirection: 'column' as const,
     alignItems: 'center',
     justifyContent: 'center',
-    height: '80vh'
+    paddingBottom: '100px'
   },
   title: {
     fontSize: '3.5rem',
@@ -80,28 +80,7 @@ export const GeneralWelcomePage: React.FC<Props> = ({ onNavigate }) => {
         </p>
         
         <div style={styles.grid}>
-            <div 
-                style={styles.card}
-                onClick={() => onNavigate('welcome')}
-                onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-8px)'; e.currentTarget.style.boxShadow = '0 16px 32px rgba(0,0,0,0.12)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 8px 16px rgba(0,0,0,0.08)'; }}
-            >
-                <div style={styles.cardIcon}>⚡</div>
-                <h2 style={styles.cardTitle}>FIS</h2>
-                <p style={styles.cardText}>Flexibilitetsregistret<br/>Processer, BRS och MPS</p>
-            </div>
-
-            <div 
-                style={styles.card}
-                onClick={() => onNavigate('dhvWelcome')}
-                onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-8px)'; e.currentTarget.style.boxShadow = '0 16px 32px rgba(0,0,0,0.12)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 8px 16px rgba(0,0,0,0.08)'; }}
-            >
-                <div style={styles.cardIcon}>💾</div>
-                <h2 style={styles.cardTitle}>Datahub</h2>
-                <p style={styles.cardText}>Datahanteringsverktyg (DHV)<br/>Mätvärden och avtal</p>
-            </div>
-
+            {/* 1. Tidslinjer */}
             <div 
                 style={styles.card}
                 onClick={() => onNavigate('timeline')}
@@ -113,6 +92,7 @@ export const GeneralWelcomePage: React.FC<Props> = ({ onNavigate }) => {
                 <p style={styles.cardText}>Implementering<br/>Historik och Framtid</p>
             </div>
 
+            {/* 2. Driftsättning */}
             <div 
                 style={styles.card}
                 onClick={() => onNavigate('deployment')}
@@ -122,6 +102,42 @@ export const GeneralWelcomePage: React.FC<Props> = ({ onNavigate }) => {
                 <div style={styles.cardIcon}>🚀</div>
                 <h2 style={styles.cardTitle}>Driftsättning</h2>
                 <p style={styles.cardText}>Roadmap och faser<br/>Implementeringsplaner</p>
+            </div>
+
+            {/* 3. Att göra */}
+            <div 
+                style={styles.card}
+                onClick={() => onNavigate('todo')}
+                onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-8px)'; e.currentTarget.style.boxShadow = '0 16px 32px rgba(0,0,0,0.12)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 8px 16px rgba(0,0,0,0.08)'; }}
+            >
+                <div style={styles.cardIcon}>📋</div>
+                <h2 style={styles.cardTitle}>Att göra</h2>
+                <p style={styles.cardText}>Arbetslista<br/>Utestående punkter</p>
+            </div>
+
+            {/* 4. Datahub */}
+            <div 
+                style={styles.card}
+                onClick={() => onNavigate('dhvWelcome')}
+                onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-8px)'; e.currentTarget.style.boxShadow = '0 16px 32px rgba(0,0,0,0.12)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 8px 16px rgba(0,0,0,0.08)'; }}
+            >
+                <div style={styles.cardIcon}>💾</div>
+                <h2 style={styles.cardTitle}>Datahub</h2>
+                <p style={styles.cardText}>Datahanteringsverktyg (DHV)<br/>Mätvärden och avtal</p>
+            </div>
+
+            {/* 5. FIS */}
+            <div 
+                style={styles.card}
+                onClick={() => onNavigate('welcome')}
+                onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-8px)'; e.currentTarget.style.boxShadow = '0 16px 32px rgba(0,0,0,0.12)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 8px 16px rgba(0,0,0,0.08)'; }}
+            >
+                <div style={styles.cardIcon}>⚡</div>
+                <h2 style={styles.cardTitle}>FIS</h2>
+                <p style={styles.cardText}>Flexibilitetsregistret<br/>Processer, BRS och MPS</p>
             </div>
         </div>
     </div>
