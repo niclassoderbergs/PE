@@ -116,3 +116,18 @@ export interface MPSData {
   status?: DocStatus;
   history?: Revision[];
 }
+
+// --- Storyline & AI ---
+export interface Step {
+  id: number;
+  title: string;
+  icon: any;
+  category: string;
+  description: string;
+  technical: string;
+}
+
+export interface ChatMessage {
+  role: 'user' | 'model';
+  text: string;
+}

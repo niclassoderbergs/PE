@@ -8,7 +8,7 @@ import { styles } from './styles';
 import { StatusPage } from '../StatusPage';
 import { WelcomePage } from '../WelcomePage';
 import { TimelinePage } from '../TimelinePage';
-import { DeploymentPage } from '../DeploymentPage'; // New Import
+import { DeploymentPage } from '../DeploymentPage'; 
 import { TodoPage } from '../TodoPage';
 import { GeneralWelcomePage } from '../GeneralWelcomePage';
 import { DhvWelcomePage } from '../DhvWelcomePage';
@@ -29,6 +29,7 @@ import { InformationModelPage } from '../InformationModelPage';
 import { RenumberingProposalPage } from '../RenumberingProposalPage';
 import { PurposeSection } from '../PurposeSection';
 import { MPSSection } from '../MPSSection';
+import { StorylinePage } from '../StorylinePage';
 import { JWGProcedure1 } from '../JWGProcedure1';
 import { JWGProcedure2 } from '../JWGProcedure2';
 import { JWGProcedure3 } from '../JWGProcedure3';
@@ -172,7 +173,7 @@ const StatusBadge = ({ status }: { status?: DocStatus }) => {
       marginLeft: '12px',
       textTransform: 'uppercase',
       verticalAlign: 'middle',
-      border: `1px solid ${color}20` // Slight border for contrast
+      border: `1px solid ${color}20` 
     }}>
       {label}
     </span>
@@ -241,7 +242,6 @@ const HistoryTable = ({ history }: { history?: Revision[] }) => {
   );
 };
 
-// --- Styles for Navigation Buttons ---
 const navBtnStyle = {
     padding: '8px 16px',
     backgroundColor: '#fff',
@@ -267,14 +267,12 @@ interface AppRouterProps {
     selectedDomain: string;
     selectedProcedureId: number | null;
     isEditing: boolean;
-    // Handlers
     setViewMode: (v: ViewMode) => void;
     handleSelectBRS: (id: string) => void;
     handleSelectMPS: (id: string) => void;
     handleSelectDomain: (id: string) => void;
     handleNavigateToProcedure: (id: number) => void;
     handleUpdateBRS: (data: BRSData) => void;
-    // BRS Editing handlers
     updateArrayItem: (section: 'preConditions' | 'businessRules' | 'process', index: number, key: string, value: string) => void;
     handleAddArrayItem: (section: 'preConditions' | 'businessRules' | 'process') => void;
     handleRemoveArrayItem: (section: 'preConditions' | 'businessRules' | 'process', index: number) => void;
@@ -289,7 +287,6 @@ export const AppRouter: React.FC<AppRouterProps> = ({
     const activeBRS = brsData.find(b => b.id === selectedId) || brsData[0];
     const activeMPS = mpsData.find(m => m.id === selectedMpsId);
     
-    // Logic for Navigation Buttons
     const { prevBRS, nextBRS } = useMemo(() => {
         if (viewMode !== 'detail') return { prevBRS: null, nextBRS: null };
         const idx = brsData.findIndex(b => b.id === selectedId);
@@ -301,7 +298,6 @@ export const AppRouter: React.FC<AppRouterProps> = ({
 
     const { prevMPS, nextMPS } = useMemo(() => {
         if (viewMode !== 'mps') return { prevMPS: null, nextMPS: null };
-        // Sort MPS naturally for consistent navigation
         const sortedMPS = [...mpsData].sort((a, b) => a.id.localeCompare(b.id));
         const idx = sortedMPS.findIndex(m => m.id === selectedMpsId);
         return {
@@ -310,7 +306,6 @@ export const AppRouter: React.FC<AppRouterProps> = ({
         };
     }, [mpsData, selectedMpsId, viewMode]);
     
-    // Prepare table data for activeBRS
     const startConditionsData = activeBRS.preConditions.map(c => typeof c === 'string' ? { id: '', description: c } : c);
     const acceptedData = (Array.isArray(activeBRS.postConditions.accepted) ? activeBRS.postConditions.accepted : [activeBRS.postConditions.accepted]).map((c: any) => typeof c === 'string' ? { id: '', description: c } : c);
     const flowData = activeBRS.process.map(c => typeof c === 'string' ? { id: '', description: c } : c);
@@ -369,6 +364,10 @@ export const AppRouter: React.FC<AppRouterProps> = ({
 
     if (viewMode === 'todo') {
         return <TodoPage />;
+    }
+
+    if (viewMode === 'storyline') {
+        return <StorylinePage />;
     }
 
     if (viewMode === 'domainLanding') {
@@ -492,7 +491,6 @@ export const AppRouter: React.FC<AppRouterProps> = ({
     if (viewMode === 'detail') {
         return (
             <div>
-                {/* Navigation Bar for BRS */}
                 <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '24px'}}>
                     <div>
                         {prevBRS && (
@@ -557,9 +555,9 @@ export const AppRouter: React.FC<AppRouterProps> = ({
                   data={acceptedData}
                   columns={[{ key: 'id', label: 'Rule #', width: '20%' }, { key: 'description', label: 'Description', type: 'textarea' }]}
                   isEditing={isEditing}
-                  onUpdate={(idx, key, val) => { /* Logic */ }}
-                  onAdd={() => { /* Logic */ }}
-                  onRemove={(idx) => { /* Logic */ }}
+                  onUpdate={(idx, key, val) => {}}
+                  onAdd={() => {}}
+                  onRemove={(idx) => {}}
                 />
               </section>
 

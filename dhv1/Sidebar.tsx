@@ -72,7 +72,6 @@ const SidebarGroup: React.FC<SidebarGroupProps> = ({
             
             {isOpen && (
                 <div style={styles.treeContent}>
-                    {/* MPS Sub-menu */}
                     {mpsItems.length > 0 && (
                         <>
                            <div style={styles.treeSubHeaderContainer}>
@@ -120,7 +119,6 @@ const SidebarGroup: React.FC<SidebarGroupProps> = ({
                         </>
                     )}
 
-                    {/* BRS Sub-menu */}
                     {brsItems.length > 0 && (
                         <>
                            <div style={styles.treeSubHeaderContainer}>
@@ -155,7 +153,6 @@ const SidebarGroup: React.FC<SidebarGroupProps> = ({
                         </>
                     )}
 
-                    {/* Cross-cutting links */}
                     <button
                         onClick={() => onSelectActorOverview(group.id)}
                         style={{
@@ -174,14 +171,11 @@ const SidebarGroup: React.FC<SidebarGroupProps> = ({
     );
 };
 
-// Helper for sorting
 const sortById = (a: {id: string}, b: {id: string}) => {
     const numA = parseInt(a.id.replace(/\D/g, ''), 10);
     const numB = parseInt(b.id.replace(/\D/g, ''), 10);
     return numA - numB;
 };
-
-// --- Sidebar Component ---
 
 interface SidebarProps {
     viewMode: ViewMode;
@@ -205,11 +199,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
     handleSelectBRS, handleSelectMPS, handleSelectConditions, handleSelectActorOverview,
     handleSelectBRSOverview, handleSelectMPSOverview, handleSelectDomain
 }) => {
-    // Top-level Toggles
     const [startHover, setStartHover] = useState(false);
     const [timelineHover, setTimelineHover] = useState(false);
     const [deploymentHover, setDeploymentHover] = useState(false); 
     const [todoHover, setTodoHover] = useState(false);
+    const [storylineHover, setStorylineHover] = useState(false);
     const [isFisOpen, setIsFisOpen] = useState(false); 
     const [fisHover, setFisHover] = useState(false);
     const [isDhvOpen, setIsDhvOpen] = useState(false);
@@ -217,12 +211,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
     const [isAdminOpen, setIsAdminOpen] = useState(false);
     const [adminHover, setAdminHover] = useState(false);
 
-    // Dynamic State
     const [openFisGroups, setOpenFisGroups] = useState<string[]>([]);
     const [expandedDhvDomains, setExpandedDhvDomains] = useState<Record<string, boolean>>({});
-    const [expandedSubMenus, setExpandedSubMenus] = useState<Record<string, boolean>>({}); // Key format: 'domainId-mps' or 'domainId-brs'
+    const [expandedSubMenus, setExpandedSubMenus] = useState<Record<string, boolean>>({}); 
 
-    // Helper for toggling
     const toggleFisGroup = (id: string) => {
         setOpenFisGroups(prev => prev.includes(id) ? prev.filter(g => g !== id) : [...prev, id]);
     };
@@ -235,10 +227,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
         setExpandedSubMenus(prev => ({ ...prev, [key]: !prev[key] }));
     };
 
-    // Auto-expand logic
     useEffect(() => {
-        // Handle Top Level Navigation
-        if (viewMode === 'timeline' || viewMode === 'todo' || viewMode === 'deployment') {
+        if (viewMode === 'timeline' || viewMode === 'todo' || viewMode === 'deployment' || viewMode === 'storyline') {
              setIsFisOpen(false);
              setIsDhvOpen(false);
              return;
@@ -256,7 +246,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
             return;
         }
 
-        // Handle Domain Landing Pages
         const activeDhvDomain = dhvDomains.find(d => d.view === viewMode);
         if (activeDhvDomain) {
             setIsDhvOpen(true);
@@ -265,7 +254,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
             return;
         }
         
-        // Handle Detail/MPS views
         let activeId = '';
         if (viewMode === 'mps') {
             activeId = selectedMpsId;
@@ -281,7 +269,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
             setIsDhvOpen(true);
             setIsFisOpen(false);
             
-            // Expand appropriate DHV Domain
             const targetBrs = brsData.find(b => b.id === activeId);
             const targetMps = mpsData.find(m => m.id === activeId);
 
@@ -302,7 +289,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
             });
 
         } else {
-            // Assume FIS/Legacy (BRS-SE, BRS-FLEX)
             setIsFisOpen(true);
             setIsDhvOpen(false);
             
@@ -316,7 +302,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
     return (
         <nav style={styles.sidebar}>
-            {/* Start Button */}
             <div style={styles.treeGroup}>
                 <div 
                     style={{
@@ -336,7 +321,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 </div>
             </div>
 
-            {/* Timeline Button */}
             <div style={styles.treeGroup}>
                 <div 
                     style={{
@@ -356,7 +340,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 </div>
             </div>
 
-            {/* Deployment Button */}
             <div style={styles.treeGroup}>
                 <div 
                     style={{
@@ -376,7 +359,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 </div>
             </div>
 
-            {/* To Do Button */}
             <div style={styles.treeGroup}>
                 <div 
                     style={{
@@ -396,7 +378,25 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 </div>
             </div>
 
-            {/* DHV Main Group (Config Driven) */}
+            <div style={styles.treeGroup}>
+                <div 
+                    style={{
+                        ...styles.treeHeader,
+                        padding: '16px 16px 16px 20px',
+                        borderBottom: '1px solid #ebecf0',
+                        color: viewMode === 'storyline' ? '#0052cc' : '#172b4d',
+                        backgroundColor: storylineHover ? '#f4f5f7' : 'transparent',
+                        cursor: 'pointer'
+                    }}
+                    onMouseEnter={() => setStorylineHover(true)}
+                    onMouseLeave={() => setStorylineHover(false)}
+                    onClick={() => setViewMode('storyline')}
+                >
+                    <span style={{marginRight: '12px'}}>📖</span>
+                    <span style={{fontSize: '1.1rem', fontWeight: 700}}>Storyline</span>
+                </div>
+            </div>
+
             <div style={styles.treeGroup}>
                 <div 
                     style={{
@@ -420,7 +420,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 
                 {isDhvOpen && (
                     <div style={{...styles.treeContent, paddingLeft: '8px'}}> 
-                        
                         <div style={styles.menuHeader}>ÖVERSIKT</div>
                         {dhvOverviewMenuItems.map(item => (
                             <button 
@@ -431,9 +430,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                 {item.label}
                             </button>
                         ))}
-                    
                         <div style={styles.menuHeader}>DOKUMENTATION</div>
-
                         {dhvDomains.map(dom => {
                             const domainMps = mpsData.filter(dom.mpsFilter).sort((a,b) => a.id.localeCompare(b.id));
                             const domainBrs = brsData.filter(dom.brsFilter).sort((a,b) => {
@@ -441,12 +438,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                 const numB = parseInt(b.id.replace(/\D/g,''));
                                 return numA - numB;
                             });
-                            
                             const isOpen = expandedDhvDomains[dom.id];
                             const mpsOpen = expandedSubMenus[`${dom.id}-mps`];
                             const brsOpen = expandedSubMenus[`${dom.id}-brs`];
-                            
-                            // Special handling for domain 9 click logic in existing code
                             const handleDomainClick = () => {
                                 if (dom.id === 'domain9') {
                                     handleSelectDomain('9');
@@ -455,7 +449,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                 }
                                 setExpandedDhvDomains(prev => ({ ...prev, [dom.id]: true }));
                             };
-
                             return (
                                 <div key={dom.id} style={styles.treeGroup}>
                                     <div style={{...styles.treeHeader, paddingLeft: '4px'}}>
@@ -469,10 +462,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                             {dom.title}
                                         </span>
                                     </div>
-                                    
                                     {isOpen && (
                                         <div style={styles.treeContent}>
-                                            {/* MPS */}
                                             {domainMps.length > 0 && (
                                                 <>
                                                     <div style={styles.treeSubHeaderContainer}>
@@ -492,8 +483,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                                     )}
                                                 </>
                                             )}
-                                            
-                                            {/* BRS */}
                                             {domainBrs.length > 0 && (
                                                 <>
                                                     <div style={styles.treeSubHeaderContainer}>
@@ -522,7 +511,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 )}
             </div>
 
-            {/* FIS Group */}
             <div style={styles.treeGroup}>
                 <div 
                     style={{
@@ -543,7 +531,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
                         FIS
                     </span>
                 </div>
-                
                 {isFisOpen && (
                     <div style={{...styles.treeContent, paddingLeft: '8px'}}> 
                         <div style={styles.menuHeader}>ÖVERSIKT</div>
@@ -556,17 +543,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                 {item.label}
                             </button>
                         ))}
-                        
                         <div style={styles.menuHeader}>DOKUMENTATION</div>
                         {groups.map(group => {
                             const filteredBrs = brsData
                                 .filter(item => group.brsPrefixes.some(prefix => item.id.startsWith(prefix)))
                                 .sort(sortById);
-                            
                             const filteredMps = mpsData
                                 .filter(item => group.mpsPrefixes.some(prefix => item.id.startsWith(prefix)))
                                 .sort(sortById);
-
                             return (
                                 <SidebarGroup 
                                     key={group.id}
@@ -593,7 +577,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 )}
             </div>
 
-            {/* Admin Section */}
             <div style={styles.treeGroup}>
                 <div 
                     style={{
@@ -611,7 +594,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     }}>▶</span>
                     Admin
                 </div>
-                
                 {isAdminOpen && (
                     <div style={styles.treeContent}>
                         {adminMenuItems.map(item => (

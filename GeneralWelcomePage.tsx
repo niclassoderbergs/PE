@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 interface Props {
@@ -116,7 +115,19 @@ export const GeneralWelcomePage: React.FC<Props> = ({ onNavigate }) => {
                 <p style={styles.cardText}>Arbetslista<br/>Utestående punkter</p>
             </div>
 
-            {/* 4. Datahub */}
+            {/* 4. Storyline */}
+            <div 
+                style={styles.card}
+                onClick={() => onNavigate('storyline')}
+                onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-8px)'; e.currentTarget.style.boxShadow = '0 16px 32px rgba(0,0,0,0.12)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 8px 16px rgba(0,0,0,0.08)'; }}
+            >
+                <div style={styles.cardIcon}>📖</div>
+                <h2 style={styles.cardTitle}>Storyline</h2>
+                <p style={styles.cardText}>Kims väg genom systemen<br/>Visualiserade kundresor</p>
+            </div>
+
+            {/* 5. Datahub */}
             <div 
                 style={styles.card}
                 onClick={() => onNavigate('dhvWelcome')}
@@ -128,7 +139,7 @@ export const GeneralWelcomePage: React.FC<Props> = ({ onNavigate }) => {
                 <p style={styles.cardText}>Datahanteringsverktyg (DHV)<br/>Mätvärden och avtal</p>
             </div>
 
-            {/* 5. FIS */}
+            {/* 6. FIS */}
             <div 
                 style={styles.card}
                 onClick={() => onNavigate('welcome')}
